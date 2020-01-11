@@ -12,6 +12,7 @@ using WebApp.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebApp.Hubs;
 
 namespace WebApp
 {
@@ -45,6 +46,8 @@ namespace WebApp
                     .AddRazorRuntimeCompilation();
 
             services.AddRazorPages();
+
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,7 +77,10 @@ namespace WebApp
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
                 endpoints.MapRazorPages();
+
+                endpoints.MapHub<ChatHub>("/chatHub");
             });
         }
     }
